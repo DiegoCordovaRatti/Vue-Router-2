@@ -1,11 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Inicio from './components/Inicio'
-import SobreMi from './components/SobreMi'
-import Contacto from './components/Contacto'
-import Post from './components/Post'
-import Articulo from './components/Articulo'
 import NotFound from './components/NotFound'
+import AdminSimple from './components/AdminSimple.vue'
+import AdminAvanzado from './components/AdminAvanzado.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -14,28 +11,54 @@ export default new Router({
         {
             path: '/',
             name: 'inicio',
-            component: Inicio
+            component: () => import(/* webpackChunkName: "inicio" */ './components/Inicio.vue')
+        },
+        {
+            path: '/inicio',
+            redirect: {name: 'inicio'}
+        },
+        {
+            path: '/portada',
+            redirect: {name: 'inicio'}
+        },
+        {
+            path: '/home',
+            redirect: {name: 'inicio'}
         },
         {
             path: '/sobremi',
             name: 'sobremi',
-            component: SobreMi
+            component: () => import(/* webpackChunkName: "sobremi" */ './components/SobreMi.vue'),
+            alias: '/acerca'
         },
         {
             path: '/contacto',
             name: 'contacto',
-            component: Contacto
+            component: () => import(/* webpackChunkName: "contacto" */ './components/Contacto.vue'),
+            alias: '/contactame'
         },
         {
             path: '/post',
             name: 'post',
-            component: Post,
+            component: () => import(/* webpackChunkName: "post" */ './components/Post.vue'),
+            
             children: [
                 {
                     path: ':articulo',
-                    component: Articulo,
+                    component: () => import(/* webpackChunkName: "articulo" */ './components/Articulo.vue'),
+                    
                 }
             ]
+        },
+        {
+            path: '/Administrador/simple',
+            name: 'Administrador-Simple',
+            component: AdminSimple,
+        },
+        {
+            path: '/Administrador/Avanzado',
+            name: 'Administrador-Avanzado',
+            component: AdminAvanzado,
         },
         {
             path: '*',
